@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Add ingredients - Create a recipe:</h1>
+
+<form method='POST' enctype='multipart/form-data'> {% csrf_token %}
+    {{ form.as_p }}
+    <div class="btn-group btn-group-sm">
+        <button type='submit'>Add Ingredient</button>
+        <button>
+            <a href='/recipes-create/'> Proceed to Recipe </a>
+        </button>
+    </div>
+</form> 
+
+{% endblock %}
