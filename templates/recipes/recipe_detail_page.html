@@ -3,7 +3,12 @@
 {% block content %}
 
 <h1>{{ recipe.title }}</h1>
-<p>{{ recipe.instructions }}</p>
+<h5>ingredients:</h5>
+    {% for x in ingredients %}
+        <p> - {{ x.name }}</p>
+    {% endfor %}
+<h5>instructions:</h5>
+    <p>{{ recipe.instructions }}</p>
 <p>{{ recipe.date }}</p>
 
 {% endblock %}

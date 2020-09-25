@@ -6,10 +6,15 @@
 
 <form method='POST' enctype='multipart/form-data'> {% csrf_token %}
     {{ form.as_p }}
+    <div>
+        <button type='submit'> Add Ingredient </button>
+    </div>
     <div class="btn-group btn-group-sm">
-        <button type='submit'>Add Ingredient</button>
         <button>
-            <a href='/recipes-create/'> Proceed to Recipe </a>
+            <a href='/'> Search for a Recipe </a>
+        </button>
+        <button>
+            <a href='/recipes-create/'> Proceed to Recipe Create Form </a>
         </button>
     </div>
 </form> 

@@ -20,10 +20,8 @@ class IngredientAddForm(forms.ModelForm):
 def get_ingredients():
     qs = Ingredient.objects.all()
     OPTIONS = []
-    i = 1
     for x in qs:
-        OPTIONS.append((i, x.name))
-        i+=1
+        OPTIONS.append((x.id, x.name))
     tuple(OPTIONS)
     return OPTIONS
 
@@ -47,7 +45,11 @@ class RecipeCreateForm(forms.ModelForm):
         return title
 
 
-class RecipeQueryForm(forms.Form):
+class RecipeQueryForm(forms.ModelForm):
     OPTIONS = get_ingredients()
     ingredients = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
         choices=OPTIONS)
+
+    class Meta:
+        model = Ingredient
+        fields = ['ingredients']

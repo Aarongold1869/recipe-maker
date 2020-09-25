@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Select your ingredients:</h1>
+<p> select the ingredients which you already have to generate a list of potential recipes. </p>
+<p> is your ingredient missing? 
+    <a href='/ingredients-add/'> Click here to add ingredients </a>
+</p>
+
+<form method='POST' action='.' enctype='multipart/form-data'> {% csrf_token %}
+    {{ form.as_p }}
+    <button type='submit'>Submit</button>
+</form> 
+
+{% endblock %}

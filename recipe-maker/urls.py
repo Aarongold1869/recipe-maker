@@ -16,12 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from .views import home_page
-from recipes.views import recipe_create_view, ingredient_add_view
+from recipes.views import *
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", home_page),
+    path("", ingredient_select_view),
     path("ingredients-add/", ingredient_add_view),
     path("recipes-create/", recipe_create_view),
     path("recipes/", include('recipes.urls')),

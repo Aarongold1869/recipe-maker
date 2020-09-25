@@ -5,10 +5,12 @@ from .views import (
     recipe_list_view,
     recipe_delete_view,
     recipe_edit_view,
+    recipe_query_view,
 )
 
 urlpatterns = [
     path("", recipe_list_view),
+    path("query/", recipe_query_view),
     path("<str:slug>/", recipe_detail_page),
     path("<str:slug>/edit/", recipe_edit_view),
     path("<str:slug>/delete/", recipe_delete_view),
