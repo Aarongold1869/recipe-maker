@@ -1,0 +1,16 @@
+<div class='col-12 col-md-10 mb-3 mx-auto'>
+    <div class='card border border-dark text-dark'>
+       <div class='card-body'>
+           <h5 class='card-title'>{{ Recipe.title }}</h5>
+           <p class='card-text'>
+               <small class='text-muted'>{{ Recipe.publish_date }}</small>
+               {% if truncate %}
+                   {{ Recipe.instructions|linebreaks|truncatewords:30 }}
+               {% else %}
+                   {{ Recipe.instructions|linebreaks }}
+               {% endif %}
+           </p>
+           <a href='/recipes/{{recipe.slug}}' class="btn btn-dark" role='button' aria-pressed="true">View Recipe</a>
+       </div>
+    </div>
+   </div>

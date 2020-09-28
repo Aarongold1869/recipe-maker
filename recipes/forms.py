@@ -4,35 +4,41 @@ from .models import *
 
 class IngredientAddForm(forms.ModelForm):
     class Meta:
-        model = Ingredient
+        model = Food
         fields = ['name']
 
     def clean_name(self, *args, **kwargs):
         instance = self.instance
         name = self.cleaned_data.get('name')
-        qs = Ingredient.objects.filter(name__iexact=name)
+        qs = Food.objects.filter(name__iexact=name)
         if instance is not None:
             qs = qs.exclude(pk=instance.pk) # id=instance.id
         if qs.exists():
             raise forms.ValidationError("This ingredient has already been added.")
         return name
 
-def get_ingredients():
-    qs = Ingredient.objects.all()
+def get_options(value):
+    qs = value.objects.all()
     OPTIONS = []
     for x in qs:
         OPTIONS.append((x.id, x.name))
     tuple(OPTIONS)
     return OPTIONS
 
+
 class RecipeCreateForm(forms.ModelForm):
-    OPTIONS = get_ingredients()
-    ingredients = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
-        choices=OPTIONS)
+    INGREDIENTS = get_options(Food)
+    CATEGORIES = get_options(Category)
+    KEYWORDS = get_options(Keyword)
+
+    ingredients = forms.TypedMultipleChoiceField(choices=INGREDIENTS)
+    category = forms.ChoiceField(choices=CATEGORIES)
+    keywords = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
+        choices=KEYWORDS)
 
     class Meta:
         model = Recipe
-        fields = ['title', 'slug', 'ingredients', 'instructions']
+        fields = ['title', 'slug', 'ingredients', 'instructions', 'category']
 
     def clean_title(self, *args, **kwargs):
         instance = self.instance
@@ -46,10 +52,9 @@ class RecipeCreateForm(forms.ModelForm):
 
 
 class RecipeQueryForm(forms.ModelForm):
-    OPTIONS = get_ingredients()
-    ingredients = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
-        choices=OPTIONS)
+    OPTIONS = get_options(Food)
+    ingredients = forms.TypedMultipleChoiceField(choices=OPTIONS)
 
     class Meta:
-        model = Ingredient
+        model = Food
         fields = ['ingredients']

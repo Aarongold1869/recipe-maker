@@ -19,19 +19,28 @@ def ingredient_select_view(request):
     return render(request, template, context)
 
 def recipe_query_view(request):
-    user_ingredients = request.session.get('ingredients')
+    food_list = request.session.get('ingredients')
+    ingredient_list = []
     match_list = []
-    for ingredient in user_ingredients:
-        qs = Recipe.objects.filter(ingredients=ingredient[0])
-        if qs:
-            for item in qs:
-                match_list.append(item)
+    for food in food_list:
+        x = Ingredient.objects.filter(food=food)
+        ingredient_list.append(x)
+    for ingredient in ingredient_list:
+        for recipe in Recipe.objects.all().filter(ingredients=ingredient[0]):
+            match_list.append(recipe)
     result = [item for items, c in Counter(match_list).most_common() 
                                       for item in [items] * c]
     recipe_list = list(dict.fromkeys(result))
-    print(recipe_list)
     template = 'recipes/recipe_list_page.html'
-    context = {'recipe_list': recipe_list}
+    user_ingredients = []
+    for x in food_list:
+        obj = Food.objects.get(id=x)
+        name = str(obj.name)
+        user_ingredients.append(name)
+    context = {
+        'recipe_list': recipe_list,
+        'ingredients': user_ingredients
+    }
     return render(request, template, context)
 
 def recipe_detail_page(request, slug):  

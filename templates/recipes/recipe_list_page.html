@@ -1,10 +1,22 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Recipes:</h1>
-    {% for recipe in recipe_list %}
-        <li>
-           <a href='/recipes/{{recipe.slug}}'>{{ recipe.title }}</a>
-        </li>
-    {% endfor %}
+<div class='col-12 col-md-10 mb-3 mx-auto'>
+    {% if ingredients %}
+    <h3>Your ingredients:</h3>
+        {% for x in ingredients %}
+            <li>
+                {{ x }}
+            </li>
+        {% endfor %}
+        <br></br>
+    {% endif %}
+
+    <h3>Recipes:</h3>
+        <div class='row'>
+            {% for recipe in recipe_list %}
+                {% include 'recipes/recipe_inline.html' with Recipe=recipe truncate=True detail=False %}
+            {% endfor %}
+        </div>
+</div>
 {% endblock %}
